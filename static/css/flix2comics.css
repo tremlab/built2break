@@ -1,0 +1,194 @@
+.movie {
+  text-align: center;
+  margin: auto;
+/*  border: solid 6px orange;
+  margin: 20px;
+  padding: 5px;*/
+  /*height: 620px;*/
+  width:400px;
+  font-family: 'Acme', sans-serif;
+}
+
+.movie img {
+  width: 200px;
+}
+
+.eachMovie {
+  display: inline-block;
+  width: 150;
+  height: 250;
+  margin: auto;
+  width: 50%;
+}
+
+#intro {
+  border: solid 6px orange;
+  margin: 20px;
+  padding: 5px;
+  text-align: center;
+  font-family: 'Acme', sans-serif;
+}
+
+#intro img {
+  width: 200px;
+}
+
+.comics img {
+  width: 120px;
+}
+
+.comicPage img {
+  height: 300px;
+}
+
+.banner img {
+  width: 100px;
+}
+
+.banner h1 {
+  color: orange;
+  font-family: 'Catamaran', sans-serif;
+}
+
+.banner h3 {
+  color: gray;
+  font-family: 'Catamaran', sans-serif;
+}
+
+.banner {
+  display: inline-block;
+  vertical-align: top;
+}
+
+#registerForm {
+  text-align: left;
+  width: 400px;
+}
+
+#registerForm input {
+  float: right;
+  width: 400px;
+}
+
+.buttons {
+  display: inline-block;
+  vertical-align: top;
+}
+
+.buttons img {
+  width: 120px;
+}
+
+.buttons a {
+  color: black;
+}
+
+button:disabled {
+  color: gray;
+}
+
+input:disabled {
+  color: gray;
+}
+
+
+.flashMsg {
+  color:orange;
+  font-weight: bold; 
+}
+
+body {
+  font-family: 'Catamaran', sans-serif;
+
+    /*background-image: url("/static/images/paper.png");*/
+}
+
+h1, h2, h3 {
+    font-family: 'Acme', sans-serif;
+}
+
+h2 {
+  color: orange;
+}
+
+.highlight {
+    background-color: orange;
+    border: solid 2px gray;
+}
+
+.hidden {
+    display: none;
+}
+
+#userInfo {
+    border: solid 6px orange;
+    margin: 20px;
+    padding: 5px;
+}
+
+footer img {
+  height: 50px;
+}
+
+footer p {
+  font-size: 60%;
+}
+
+/*below for star ratings*/
+
+.rating {
+  float: left;
+  margin-left: 130px;
+}
+
+.rating:not(:checked) > input {
+  position:absolute;
+  top:-9999px;
+  clip:rect(0,0,0,0);
+}
+
+.rating:not(:checked) > label {
+  float:right;
+  width:1em;
+  padding:0 .1em;
+  overflow:hidden;
+  white-space:nowrap;
+  cursor:pointer;
+  font-size:200%;
+  line-height:1.2;
+  color:#ddd;
+  text-shadow:1px 1px #bbb, 2px 2px #666, .1em .1em .2em rgba(0,0,0,.5);
+}
+
+.rating:not(:checked) > label:before {
+  content: &#9733;
+}
+
+.rating > input:checked ~ label {
+  color: #ff7700;
+  text-shadow:1px 1px #c60, 2px 2px #940, .1em .1em .2em rgba(0,0,0,.5);
+}
+
+.rating:not(:checked) > label:hover,
+.rating:not(:checked) > label:hover ~ label {
+  color: gold;
+  text-shadow:1px 1px goldenrod, 2px 2px #B57340, .1em .1em .2em rgba(0,0,0,.5);
+}
+
+.rating> input:checked + label:hover,
+.rating> input:checked + label:hover ~ label,
+.rating> input:checked ~ label:hover,
+.rating> input:checked ~ label:hover ~ label,
+.rating> label:hover ~ input:checked ~ label {
+  color: #ea0;
+  text-shadow:1px 1px goldenrod, 2px 2px #B57340, .1em .1em .2em rgba(0,0,0,.5);
+}
+
+.rating > label:active {
+  position:relative;
+  top:2px;
+  left:2px;
+}
+
+
+/* above for star ratings*/
