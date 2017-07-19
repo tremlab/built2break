@@ -24,6 +24,15 @@
       <div class="banner">
         <h3>by tremlab</h3>
       </div>
+      <div>
+        <h3>error</h3>
+        <p><i>noun</i> er·ror \ˈer-ər, ˈe-rər\
+        <br>an act or condition of ignorant or imprudent deviation from a code of behavior
+        <br>etymology: from the Latin <i>error</i>, to wander</p>
+      </div>
+      <div>
+          <button type="button" class="btn btn-default" id="beep">Beep</button>
+      </div>
       <div class="flashMsg">
         <ul>
             {% for message in get_flashed_messages() %}
@@ -48,7 +57,7 @@
       <div class="col-xs-offset-3">
         <footer>
           <h2>Special Thanks to:</h2>
-            <p>Divide by zero</p>
+            <img src="/static/images/bugsnag.jpg">
         </footer>
       </div>
     </div>

@@ -1,28 +1,30 @@
 // flix2comix.js
 "use strict"
 
-
 document.addEventListener ("DOMContentLoaded", function() 
     {
-        $('#loginForm input').on('focus', fHandleEnter);   // toggle?
-        $('#registerForm input').on('focus', fHandleEnter);   // toggle?
-        $('#registerForm input').on('blur', fHandleExit);   // toggle?
-        $('#loginForm input').on('blur', fHandleExit);
-        $('#registerForm input').on('blur', fEnableSubmit);
+        $('#beep').on('click', fBoop);
+        $('#outOfIndexError').on('click', fIndex);
+        $('#nameError').on('click', fName);
+        // $('#loginForm input').on('focus', fHandleEnter);   // toggle?
+        // $('#registerForm input').on('focus', fHandleEnter);   // toggle?
+        // $('#registerForm input').on('blur', fHandleExit);   // toggle?
+        // $('#loginForm input').on('blur', fHandleExit);
+        // $('#registerForm input').on('blur', fEnableSubmit);
 
-        $('#signUpButton').on('click', fDisplayRegForm);
-        $('#cancelReg').on('click', fHideRegForm);
-        $('#loginButton').on('click', fDisplayLoginForm);
-        $('#cancelLogin').on('click', fHideLoginForm);
-        $('#editUserButton').on('click', fDisplayUserForm);
-        $('#cancelEditUser').on('click', fHideUserForm);
+        // $('#signUpButton').on('click', fDisplayRegForm);
+        // $('#cancelReg').on('click', fHideRegForm);
+        // $('#loginButton').on('click', fDisplayLoginForm);
+        // $('#cancelLogin').on('click', fHideLoginForm);
+        // $('#editUserButton').on('click', fDisplayUserForm);
+        // $('#cancelEditUser').on('click', fHideUserForm);
 
-        $('#email').on('blur', fValidateEmail);
-        $('#password2').on('blur', fPasswordsMatch);
+        // $('#email').on('blur', fValidateEmail);
+        // $('#password2').on('blur', fPasswordsMatch);
 
-        $('#startButton').on('click', fGetMovie);
-        $('#startButton').on('click', function () {$('#intro').hide()});
-        // needs to be dynamic for movie/comic
+        // $('#startButton').on('click', fGetMovie);
+        // $('#startButton').on('click', function () {$('#intro').hide()});
+        // // needs to be dynamic for movie/comic
         // $('input[type=radio]').on('click', fRateMovie);
 
 
@@ -31,6 +33,26 @@ document.addEventListener ("DOMContentLoaded", function()
 
 console.log("connected!!!!!!!");
 Bugsnag.notify("ErrorName", "Monkey pants!!!!!!1!!!!");
+
+
+function fBoop(evt) {
+    Bugsnag.notify("Beep", "Boop");
+    $('#beep').text("Boop");
+    $('#beep').prop('disabled', true);
+}
+
+function fIndex(evt) {
+    var rrr = $('#rstage option:selected').val();
+    console.log('helo', rrr);
+    $.get('/index_error', rrr);
+}
+
+function fName(evt) {
+    $.get('/name_error')
+}
+
+
+
 
 
 function fGetMovie(evt) {

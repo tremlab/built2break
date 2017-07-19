@@ -24,15 +24,44 @@ bugsnag.configure(
 )
 
 
+def callback(notification):
+
+    # if you return False, the notification will not be sent to
+    # Bugsnag. (see ignore_classes for simple cases)
+    if notification.release_stage == "staging":
+        return False
+
+    # You can set properties of the notification and
+    # add your own custom meta-data.
+    # notification.user = {"id": current_user.id,
+    #   "name": current_user.name,
+    #   "email": current_user.email}
+    # notification.add_tab("account", {"paying": current_user.acccount.is_paying()})
+
+# Call `callback` before every notification
+bugsnag.before_notify(callback)
+
+
 @app.route('/')
 def index():
     """Homepage."""
     return render_template("homepage.html")
 
 
+@app.route('/index_error', methods=['POST', 'GET'])
+def index_error():
+    """Will generate an out of index error."""
+    release = request.args.get("release")
+    bugsnag.configure(release_stage = release)
+    stuff = [1,2,3]
+    print stuff[17]
 
 
-
+@app.route('/name_error')
+def name_error():
+    """Will generate a name error."""
+    
+    print doesnt_exist
 
 ##################################################
 
