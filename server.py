@@ -1,4 +1,4 @@
-"""server for flix2comix
+"""server for built2break
 """
 
 from jinja2 import StrictUndefined
@@ -12,6 +12,7 @@ import os
 
 
 app = Flask(__name__)
+handle_exceptions(app) # bugsnag config
 
 app.secret_key = "monkey"
 
@@ -41,11 +42,11 @@ if __name__ == '__main__':
     app.debug = True
     #not caching on reload
     app.jinja_env.auto_reload = app.debug
+    bugsnag.notify(Exception("Test Error"))
 
-    connect_to_db(app, os.environ.get("DATABASE_URL"))
 
     #use debug toolbar
-    # DebugToolbarExtension(app)
+    DebugToolbarExtension(app)
 
     PORT = int(os.environ.get("PORT", 5000))
 

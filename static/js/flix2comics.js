@@ -30,6 +30,7 @@ document.addEventListener ("DOMContentLoaded", function()
 ); // closes DOM event listener
 
 console.log("connected!!!!!!!");
+Bugsnag.notify("ErrorName", "Monkey pants!!!!!!1!!!!");
 
 
 function fGetMovie(evt) {

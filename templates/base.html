@@ -5,6 +5,9 @@
 <!--   <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet"> -->
   <link href='/static/css/flix2comics.css' rel="stylesheet" type="text/css">
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+  <script
+  src="//d2wy8f7a9ursnm.cloudfront.net/bugsnag-3.min.js"
+  data-apikey="c2f4a83fbb63b9c09898191a3da3cabd"></script>
   <title>{%block title %} {% endblock %}</title>
 
 </head>
@@ -16,7 +19,7 @@
         <img src="/static/images/tremlab.jpg">
       </div>
       <div class="banner">
-        <h1>flix2comix</h1>
+        <h1>built2break</h1>
       </div>
       <div class="banner">
         <h3>by tremlab</h3>
@@ -38,52 +41,14 @@
             put your content here 
     {% endblock %}
 
-      {% if "user_id" in session %}
-        <br>
-        <br>
-        <div class="buttons">
-          <a href="/movies">
-            <button>Rate Movies</button>
-          </a>
-        </div>
-        <div class="buttons">
-          <a href="/user">
-            <button>My Info</button>
-          </a>
-        </div>
-        <div class="buttons">
-          <form action="/logout" method="get">
-          <button type="submit" id="logout" value="Logout">Logout</button>
-          </form>
-        </div>
-      </div>
-      <div class="col-xs-12 col-md-1">
-      </div>
-    </div>
 
-
-
-      {% else %}
-        <div id="notSignedIn">
-          <br>
-            <p>Please login/signup below to get started.</p>
-          <br>
-              <button type="submit" id="loginButton">Login</button>
-          <br>
-              <button type="submit" id="signUpButton">Sign Up</button>
-        </div>
-      {% endif %}
 
   <div class="container">
     <div class="row">
       <div class="col-xs-offset-3">
         <footer>
           <h2>Special Thanks to:</h2>
-          <img src="/static/images/cam.png"><img src="/static/images/HB.png"><img src="/static/images/tmdb.png">
-          <br>
-          <p>This product uses the TMDb API but is not endorsed or certified by TMDb.
-          <br>This product uses the ISBNdb API but is not endorsed or certified by ISBNdb.
-          <br>This product uses the bechdeltest API but is not endorsed or certified by bechdeltest.</p>
+            <p>Divide by zero</p>
         </footer>
       </div>
     </div>

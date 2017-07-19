@@ -1,5 +1,5 @@
 {% extends 'base.html' %}
-{% block title %}flix2comix -  Welcome{% endblock %}
+{% block title %}built2break -  Welcome{% endblock %}
 
 {% block content %}
 
@@ -7,48 +7,23 @@
     <div class="col-xs-12 col-md-3">
     </div>
     <div class="col-xs-12 col-md-6">
-    <h2>Let's find you a comic!</h2>
+    <h2>Let's crash and burn and document all of it!!!</h2>
 
-    <p>For whatever reason, you've come this far in life without
-        ever reading a comic book.</p>
+    <p>This site existw solely to explore error messages</p>
     <h3>It's OK!  We're here to help.</h3>
-    <p>If you don't mind taking a moment to rate a few movies, 
-        we will be happy to find you an awesome little comic
-        in your wheelhouse.</p>
-    <p>And don't worry - none of these are part 27 of an epic 50 year-long
-        series where you need to know an elaborate backstory to understand what 
-        the heck is going on. We will offer a simple, self-contained 
-        (award-winning! amazing!!!) graphic novel to try out.</p>
+
 
     <h3>Comics are for grownups too!</h3>
 
-    {% if "user_id" in session %}
-    <p>click below to start rating movies:</p>
-    {% endif %}
+
     <br>
+<div class="btn-group" role="group" aria-label="...">
+  <button type="button" class="btn btn-default">Left</button>
+  <button type="button" class="btn btn-default">Middle</button>
+  <button type="button" class="btn btn-default">Right</button>
+</div>
 
 
-    <div id="loginForm" class="hidden">
-        <form action="/login-validation" method="POST">
-            Email: <input type="text" name="email"><br>
-            Password: <input type="password" name="password"><br>
-            <input type="submit">
-        </form>
-        <br><button type="submit" id="cancelLogin">Cancel</button>
-    </div>
-
-    <div id="registerForm" class="hidden">
-            <form action="/register" method="POST">
-                Email: <input type="text" name="email" id="email">
-                    <span id="emailValid"></span><br>
-                Password: <input type="password" name="password" id="password"><br>
-                Password again: <input type="password" name="password2" id="password2">
-                    <span id="passMatch"></span><br>
-                nickname: <input type="text" name="nickname"><br>
-                <input type="submit" id="registerButton" disabled>
-            </form>
-            <br><br><br><button type="submit" id="cancelReg">Cancel</button>
-    </div>
     </div>
     <div class="col-xs-12 col-md-3">
     </div>
