@@ -26,15 +26,19 @@ function fBoop(evt) {
     $('#beep').prop('disabled', true);
 }
 
+// placeholder -- not sure what to display yet
+function fShowError(payload) {
+    console.log('called fShowError');
+}
 
-// captures data user has selected on the page,
+// captures the data user has selected on the page,
 // to hand over to AJAX calls
 function fGetUserData() {
     var user = $('#username').val();
     var rstage = $('#rstage option:selected').val();
-    var handling = $('#handling option:selected').val();
+    var handling = $('#handling input:checked').val();
 
-    user_info = {
+    var user_info = {
         "user": user,
         "rstage": rstage,
         "handling": handling
@@ -49,10 +53,11 @@ function fGetUserData() {
 function fIndex(evt) {
     var user_info = fGetUserData();
     console.log(user_info);
-    $.get('/index_error', user_info, );
+    $.post('/index_error', user_info, fShowError);
 }
 
 function fName(evt) {
+    var user_info = fGetUserData();
     $.get('/name_error')
 }
 
