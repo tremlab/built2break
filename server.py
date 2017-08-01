@@ -23,50 +23,60 @@ bugsnag.configure(
     project_root="/",
 )
 
-# setting default info, which can be overwritten 
-#  when user makes selections
-user_selection = {
-    "id": "raving rabid",
-    "handling": "no",
-    "rstage": "production"
-}
-# confirm scope - glboal variable accessible to all funcitons.
 
 
 def callback(notification):
-    bugsnag.configure(release_stage = user_selection["rstage"])
-    # if you return False, the notification will not be sent to Bugsnag. (see ignore_classes for simple cases)
+    """for unhandled errors, capturing user and session data.
+    """
+    bugsnag.configure(release_stage = session["rstage"])
+    # if you return False, the notification will not be sent to Bugsnag. 
+    # (see ignore_classes for simple cases)
     if notification.release_stage == "staging":
         return False
-    # You can set properties of the notification and
-    # add your own custom meta-data.
-    notification.user = {"id": user_selection["id"]}
+    # You can set properties of the notification
+    notification.user = {"name": session["user"]}
+    # add some fun suff here - fav color, astrological sign :P
     # notification.add_tab("account", {"paying": current_user.acccount.is_paying()})
 
 # Call `callback` before every notification
 bugsnag.before_notify(callback)
 
 
+def set_user_info(args):
+    """accepts the request args from an Ajax call,
+    and updates info in session.
+    """
+    session["user"] = args.get("user", "Donkey Kong")
+    session["rstage"] = args.get("rstage", "monkeys")
+    session["handling"] = args.get("handling", "no")
+
+
 @app.route('/')
 def index():
     """Homepage."""
+    session["user"] = "Raving Rabid :D"
+    session["rstage"] = "production"
+    session["handling"] = "no"
     return render_template("homepage.html")
 
 
 @app.route('/index_error', methods=['POST', 'GET'])
 def index_error():
     """Will generate an out of index error."""
-    release = request.args.get("rstage")
-    username = request.args.get("user")
-    handling = request.args.get("handling")
-    current
-    
+    user_info = request.args
+    set_user_info(user_info)
+    stuff = [1,2,3]    
 
-    if handling == "yes":
-        pass #handled error code here...........
+    if session["handling"] == "yes":
+        # having issues with session - but not for unhandled??? how?
+        try:
+            print stuff[17]
+        except Exception as e:
+            bugsnag.notify(e, context="handled Index Error - ta da!")
+            # show_error_dialog(). <--what is this?? from bs docs
     else:
-        #deliberate out of range error
-        stuff = [1,2,3]
+        print "tryiong ..........."
+        #deliberate, unhandled out of range error
         print stuff[17]
 
 
