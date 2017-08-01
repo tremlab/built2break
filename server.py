@@ -24,7 +24,7 @@ bugsnag.configure(
 )
 
 # setting a username, until the user picks one.
-session["user"] = "raving_rabid"
+
 
 def callback(notification):
 

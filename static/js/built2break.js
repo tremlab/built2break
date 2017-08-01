@@ -29,7 +29,7 @@ function fBoop(evt) {
 
 // captures data user has selected on the page,
 // to hand over to AJAX calls
-function fGetUserData(evt) {
+function fGetUserData() {
     var user = $('#username').val();
     var rstage = $('#rstage option:selected').val();
     var handling = $('#handling option:selected').val();
@@ -47,9 +47,9 @@ function fGetUserData(evt) {
 
 // triggers a python Index Error
 function fIndex(evt) {
-    
-    console.log('helo', rrr);
-    $.get('/index_error', rrr);
+    var user_info = fGetUserData();
+    console.log(user_info);
+    $.get('/index_error', user_info, );
 }
 
 function fName(evt) {
