@@ -53,12 +53,14 @@ function fGetUserData() {
 function fIndex(evt) {
     var user_info = fGetUserData();
     console.log(user_info);
+    // sennding as get, not post - not form data, but a dicitonary
+    // fShowError not executing.  server stops after error.
     $.get('/index_error', user_info, fShowError);
 }
 
 function fName(evt) {
     var user_info = fGetUserData();
-    $.get('/name_error')
+    $.get('/name_error', user_info, fShowError);
 }
 
 

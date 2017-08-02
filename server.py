@@ -12,6 +12,8 @@ import os
 
 
 app = Flask(__name__)
+# http://flask.pocoo.org/docs/0.12/appcontext/ ----session error
+
 handle_exceptions(app) # bugsnag config
 
 app.secret_key = "monkey"
@@ -28,13 +30,13 @@ bugsnag.configure(
 def callback(notification):
     """for unhandled errors, capturing user and session data.
     """
-    bugsnag.configure(release_stage = session["rstage"])
-    # if you return False, the notification will not be sent to Bugsnag. 
-    # (see ignore_classes for simple cases)
-    if notification.release_stage == "staging":
+    rstage = session["rstage"]
+    if rstage == "staging":
         return False
+    else:
+        bugsnag.configure(release_stage = rstage)
     # You can set properties of the notification
-    notification.user = {"name": session["user"]}
+        notification.user = {"name": session["user"]}
     # add some fun suff here - fav color, astrological sign :P
     # notification.add_tab("account", {"paying": current_user.acccount.is_paying()})
 
@@ -75,7 +77,7 @@ def index_error():
             bugsnag.notify(e, context="handled Index Error - ta da!")
             # show_error_dialog(). <--what is this?? from bs docs
     else:
-        print "tryiong ..........."
+        print "trying ..........."
         #deliberate, unhandled out of range error
         print stuff[17]
 
@@ -83,8 +85,40 @@ def index_error():
 @app.route('/name_error')
 def name_error():
     """Will generate a name error."""
-    
-    print doesnt_exist
+    user_info = request.args
+    set_user_info(user_info)
+
+
+    if session["handling"] == "yes":
+        # having issues with session - but not for unhandled??? how?
+        try:
+            print doesnt_exist
+        except Exception as e:
+            bugsnag.notify(e, context="handled Name Error - Booyah!")
+            # show_error_dialog(). <--what is this?? from bs docs
+    else:
+        print "trying ..........."
+        #deliberate, unhandled name error
+        print doesnt_exist
+
+#  @app.route('/name_error')
+# def name_error():
+#     """Will generate a name error."""
+#     user_info = request.args
+#     set_user_info(user_info)
+
+
+#     if session["handling"] == "yes":
+#         # having issues with session - but not for unhandled??? how?
+#         try:
+#             print doesnt_exist
+#         except Exception as e:
+#             bugsnag.notify(e, context="handled Name Error - Booyah!")
+#             # show_error_dialog(). <--what is this?? from bs docs
+#     else:
+#         print "trying ..........."
+#         #deliberate, unhandled name error
+#         print doesnt_exist   
 
 ##################################################
 
