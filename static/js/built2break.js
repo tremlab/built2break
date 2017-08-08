@@ -20,16 +20,22 @@ document.addEventListener ("DOMContentLoaded", function()
 console.log("connected!!!!!!!");
 
 Bugsnag.beforeNotify = function(payload, metaData) {
+
   metaData.form_input = fGetUserData();
   var rstage = metaData.form_input["rstage"];
   if (rstage === "staging") {
     return false;
+    }
+
+    // UNHANDLED - CAPTURE STAGE, USER
+
+
+  // Bugsnag.releaseStage = rstage;
+  // Bugsnag.user = {
+  //   name: metaData.form_input["user"]
+  //   };
+
 }
-  Bugsnag.releaseStage = rstage;
-  Bugsnag.user = {
-    name: metaData.form_input["user"]
-    };
-  }
 
 
 Bugsnag.notify("ErrorName", "Monkey pants!!!!!!1!!!!");
@@ -69,12 +75,13 @@ function fJsName(evt) {
             console.log(doesntExist);
         } 
         catch (e) {
-            // form_details = fGetUserData();
-            // Bugsnag.releaseStage = form_details["rstage"];
-            // Bugsnag.user = {
-            //     name: form_details["user"]
-            // };
-            // metadata = {
+            var form_details = fGetUserData();
+            //  SHOULD THIS BE SET HERE OR IN BEFORE.NOTIFY???
+            Bugsnag.releaseStage = form_details["rstage"];
+            Bugsnag.user = {
+                name: form_details["user"]
+            };
+            // var metadata = {
             //     "form_input": form_details
             // }
             Bugsnag.notifyException(e, "a handled Reference Error - HUZZAH!");            
@@ -146,8 +153,6 @@ function fType(evt) {
     var user_info = fGetUserData();
     $.get('/type_error', user_info, fShowError);
 }
-
-
 
 
 
