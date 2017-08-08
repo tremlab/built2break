@@ -51,7 +51,12 @@ def set_user_info(args):
     """accepts the request args from an Ajax call,
     and updates info in session.
     """
-    session["user"] = args.get("user", "Donkey Kong")
+    user_name = args.get("user", "Donkey Kong")
+    # if user leaves field blank, default string:
+    if user_name.strip() == "":
+        user_name = "NEMO"
+
+    session["user"] = user_name
     session["rstage"] = args.get("rstage", "monkeys")
     session["handling"] = args.get("handling", "no")
 
@@ -60,7 +65,7 @@ def set_user_info(args):
 
 @app.route('/')
 def index():
-    """Homepage."""
+    """Homepage. Sets default session info."""
     session["user"] = "Raving Rabid :D"
     session["rstage"] = "production"
     session["handling"] = "no"
@@ -105,24 +110,25 @@ def name_error():
         #deliberate, unhandled name error
         print doesnt_exist
 
-#  @app.route('/name_error')
-# def name_error():
-#     """Will generate a name error."""
-#     user_info = request.args
-#     set_user_info(user_info)
+@app.route('/type_error')
+def type_error():
+    """Will generate a type error."""
+    user_info = request.args
+    set_user_info(user_info)
 
 
-#     if session["handling"] == "yes":
-#         # having issues with session - but not for unhandled??? how?
-#         try:
-#             print doesnt_exist
-#         except Exception as e:
-#             bugsnag.notify(e, context="handled Name Error - Booyah!")
-#             # show_error_dialog(). <--what is this?? from bs docs
-#     else:
-#         print "trying ..........."
-#         #deliberate, unhandled name error
-#         print doesnt_exist   
+    if session["handling"] == "yes":
+        # having issues with session - but not for unhandled??? how?
+        try:
+            print "monkey" + 3
+        except Exception as e:
+            bugsnag.notify(e, context="handled Type Error - HUZZAH!")
+            # show_error_dialog(). <--what is this?? from bs docs
+    else:
+        print "trying ..........."
+        #deliberate, unhandled name error
+        print "monkey" + 3
+
 
 ##################################################
 

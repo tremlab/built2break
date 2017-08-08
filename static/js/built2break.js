@@ -4,8 +4,9 @@
 document.addEventListener ("DOMContentLoaded", function() 
     {
         $('#beep').on('click', fBoop);
-        $('#outOfIndexError').on('click', fIndex);
+        $('#indexError').on('click', fIndex);
         $('#nameError').on('click', fName);
+        $('#typeError').on('click', fType);
 
 
     } // closes anon function
@@ -53,14 +54,19 @@ function fGetUserData() {
 function fIndex(evt) {
     var user_info = fGetUserData();
     console.log(user_info);
-    // sennding as get, not post - not form data, but a dicitonary
-    // fShowError not executing.  server stops after error.
+    // sennding as get, not post - not form data, but a dictionary
+    // fShowError not executing.  View function doesn't return value.
     $.get('/index_error', user_info, fShowError);
 }
 
 function fName(evt) {
     var user_info = fGetUserData();
     $.get('/name_error', user_info, fShowError);
+}
+
+function fType(evt) {
+    var user_info = fGetUserData();
+    $.get('/type_error', user_info, fShowError);
 }
 
 
