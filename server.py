@@ -3,7 +3,7 @@
 
 from jinja2 import StrictUndefined
 from flask import (Flask, jsonify, render_template,
-                   redirect, request, flash, session, Markup)
+                   redirect, request, flash, session, Markup, copy_current_request_context, has_request_context)
 from flask_debugtoolbar import DebugToolbarExtension
 import bugsnag
 from bugsnag.flask import handle_exceptions
@@ -30,13 +30,16 @@ bugsnag.configure(
 def callback(notification):
     """for unhandled errors, capturing user and session data.
     """
-    rstage = session["rstage"]
-    if rstage == "staging":
-        return False
+    if has_request_context():
+        rstage = session["rstage"]
+        if rstage == "staging":
+            return False
+        else:
+            bugsnag.configure(release_stage = rstage)
+        # You can set properties of the notification
+            notification.user = {"name": session["user"]}
     else:
-        bugsnag.configure(release_stage = rstage)
-    # You can set properties of the notification
-        notification.user = {"name": session["user"]}
+        pass
     # add some fun suff here - fav color, astrological sign :P
     # notification.add_tab("account", {"paying": current_user.acccount.is_paying()})
 
@@ -51,6 +54,8 @@ def set_user_info(args):
     session["user"] = args.get("user", "Donkey Kong")
     session["rstage"] = args.get("rstage", "monkeys")
     session["handling"] = args.get("handling", "no")
+
+    return None
 
 
 @app.route('/')
@@ -70,7 +75,6 @@ def index_error():
     stuff = [1,2,3]    
 
     if session["handling"] == "yes":
-        # having issues with session - but not for unhandled??? how?
         try:
             print stuff[17]
         except Exception as e:
