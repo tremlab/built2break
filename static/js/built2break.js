@@ -1,24 +1,38 @@
-// flix2comix.js
+// built2break.js
 "use strict"
 
 document.addEventListener ("DOMContentLoaded", function() 
     {
+        // python error event listeners
         $('#beep').on('click', fBoop);
         $('#indexError').on('click', fIndex);
         $('#nameError').on('click', fName);
         $('#typeError').on('click', fType);
+        // JS error event listeners
+        $('#jsIndexError').on('click', fJsIndex);
+        $('#jsNameError').on('click', fJsName);
+        $('#jsTypeError').on('click', fJsType);
 
 
     } // closes anon function
 ); // closes DOM event listener
 
 console.log("connected!!!!!!!");
+
+Bugsnag.beforeNotify = function(payload, metaData) {
+  metaData.form_input = fGetUserData();
+  var rstage = metaData.form_input["rstage"];
+  if (rstage === "staging") {
+    return false;
+}
+  Bugsnag.releaseStage = rstage;
+  Bugsnag.user = {
+    name: metaData.form_input["user"]
+    };
+  }
+
+
 Bugsnag.notify("ErrorName", "Monkey pants!!!!!!1!!!!");
-
-// BUGSNAG CALLBACK FOR JS ERRORS!!!
-
-
-
 
 // a basic JS error trigger, one time use
 function fBoop(evt) {
@@ -26,6 +40,69 @@ function fBoop(evt) {
     $('#beep').text("Boop");
     $('#beep').prop('disabled', true);
 }
+
+function fJsIndex(evt) {
+    var user_info = fGetUserData();
+    var stuff = [1,2,3];
+
+    if (user_info["handling"] === "yes") {
+        try {
+            //  :D not acutally making an error! :D
+            console.log(stuff[17]);
+        } 
+        catch (e) {
+            Bugsnag.notifyException(e, "IndexError");            
+        // action...?
+        }
+
+    }
+
+    else {
+        console.log(stuff[17]);
+    }
+}
+
+function fJsName(evt) {
+    var user_info = fGetUserData();
+    if (user_info["handling"] === "yes") {
+        try {
+            console.log(doesntExist);
+        } 
+        catch (e) {
+            // form_details = fGetUserData();
+            // Bugsnag.releaseStage = form_details["rstage"];
+            // Bugsnag.user = {
+            //     name: form_details["user"]
+            // };
+            // metadata = {
+            //     "form_input": form_details
+            // }
+            Bugsnag.notifyException(e, "a handled Reference Error - HUZZAH!");            
+        }
+        // action...?
+    }
+
+    else {
+        console.log(doesntExist);
+    }
+}
+
+// function fJsType(evt) {
+//     var user_info = fGetUserData();
+//     if (user_info["handling"] === "yes") {
+//         try {
+//             // error line
+//         } 
+//         catch (e) {
+//             Bugsnag.notifyException(e, "Boop");            
+//         }
+//         // action...?
+//     }
+
+//     else {
+//         // error line
+//     }
+// }
 
 // placeholder -- not sure what to display yet
 function fShowError(payload) {
@@ -35,6 +112,7 @@ function fShowError(payload) {
 // captures the data user has selected on the page,
 // to hand over to AJAX calls
 function fGetUserData() {
+    // if username empty.... ?
     var user = $('#username').val();
     var rstage = $('#rstage option:selected').val();
     var handling = $('#handling input:checked').val();
@@ -73,149 +151,4 @@ function fType(evt) {
 
 
 
-// function fGetMovie(evt) {
-//     $.get('/getMovie', fDisplayMovie);
-// }
 
-// function fSkipMovie(evt) {
-//     var movie = {"movie_id": $(this).data('movie')};
-//     $.post('/skipMovie', movie, fDisplayMovie);
-// }
-
-// function fDisplayMovie(results) {
-//     $.get('/rateCount', fMovieCounter);
-//     $('#movieStars').html(results);
-//     $('input[type=radio]').on('click', fRateMovie);
-//     $('#skip').on('click', fSkipMovie);
-// }
-
-// function fMovieCounter(results) {
-//     $('#movieCounter').html(results);
-//     if (parseInt(results) > 5) {
-//         $('#getBookButton').prop('disabled', false);
-//         $('#progressBar').empty();
-//     }
-//     else {
-//         $("#bar").attr("value", parseInt(results));
-//     }
-// }
-
-// function fRateMovie(evt) {
-//     console.log(this);
-
-//     var formInputs = {
-//         "movie_id": $(this).data("movie"),
-//         "rating": $(this).data("rating")
-//     };
-//     console.log(formInputs['movie_id']);
-
-//     $.post('/rate', formInputs, fDisplayMovie)
-// }
-
-// function fHandleEnter(evt) {
-//     $(this).addClass("highlight");
-// }
-
-// function fHandleExit(evt) {
-//     $(this).removeClass("highlight");
-// }
-
-// function fDisplayRegForm(evt) {
-//     $('#registerForm').removeClass('hidden');
-//     $('#notSignedIn').hide();
-//     console.log("clicky reg");
-// }
-
-// function fHideRegForm(evt) {
-//     $('#registerForm').addClass('hidden');
-//     $('#notSignedIn').show();
-//     console.log("clicky cancel");
-// }
-
-// function fDisplayLoginForm(evt) {
-//     $('#loginForm').removeClass('hidden');
-//     $('#notSignedIn').hide();
-//     console.log("clicky login");
-// }
-
-// function fHideLoginForm(evt) {
-//     $('#loginForm').addClass('hidden');
-//     $('#notSignedIn').show();
-//     console.log("clicky cancel login");
-// }
-
-// function fPasswordsMatch(evt) {
-//     if ($('#password').val() === $('#password2').val()) {
-//         $('#passMatch').empty();        
-//     }
-
-//     else {
-//         $('#passMatch').html('<p>passwords do not match. :(</p>');
-//     }
-// }
-// // TEST!!!!!!!!!!!!!!!
-// function fValidateEmail(evt) {
-//     var emailInput = $('#email').val();
-//     if (emailInput.length > 0) {
-//         var emailRegEx = /^([a-zA-Z0-9_.+-])+\@(([a-zA-Z0-9-])+\.)+([a-zA-Z0-9]{2,4})+$/;
-//         if (emailRegEx.test(emailInput)) {
-//             $('#emailValid').empty();        
-//         }
-
-//         else {
-//             $('#emailValid').html('<p>please enter a valid email. :(</p>');
-//         }
-//     }
-// }
-
-// function fDisplayUserForm(evt) {
-//     $('#editUserForm').removeClass('hidden');
-//     $('#editUserButton').hide();
-//     console.log("clicky reg");
-// }
-
-// function fHideUserForm(evt) {
-//     $('#editUserForm').addClass('hidden');
-//     $('#editUserButton').show();
-//     console.log("clicky cancel");
-// }
-
-
-// function fEnableSubmit(evt) {
-//     if (
-//         $('#email').val().length > 0 && 
-//         $('#password').val().length > 0 &&
-//         $('#password').val() === $('#password2').val()
-//         // confirm email ok?
-//     )
-//         {
-//         $('#registerButton').prop('disabled', false);
-//         }
-
-// }
-
-
-
-// reference only below...
-
-
-        // $('#loginForm input').on('focus', fHandleEnter);   // toggle?
-        // $('#registerForm input').on('focus', fHandleEnter);   // toggle?
-        // $('#registerForm input').on('blur', fHandleExit);   // toggle?
-        // $('#loginForm input').on('blur', fHandleExit);
-        // $('#registerForm input').on('blur', fEnableSubmit);
-
-        // $('#signUpButton').on('click', fDisplayRegForm);
-        // $('#cancelReg').on('click', fHideRegForm);
-        // $('#loginButton').on('click', fDisplayLoginForm);
-        // $('#cancelLogin').on('click', fHideLoginForm);
-        // $('#editUserButton').on('click', fDisplayUserForm);
-        // $('#cancelEditUser').on('click', fHideUserForm);
-
-        // $('#email').on('blur', fValidateEmail);
-        // $('#password2').on('blur', fPasswordsMatch);
-
-        // $('#startButton').on('click', fGetMovie);
-        // $('#startButton').on('click', function () {$('#intro').hide()});
-        // // needs to be dynamic for movie/comic
-        // $('input[type=radio]').on('click', fRateMovie);

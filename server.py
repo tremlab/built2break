@@ -85,6 +85,7 @@ def index_error():
         except Exception as e:
             bugsnag.notify(e, context="handled Index Error - ta da!")
             # show_error_dialog(). <--what is this?? from bs docs
+                        # return value to page ------------
     else:
         print "trying ..........."
         #deliberate, unhandled out of range error
@@ -105,6 +106,7 @@ def name_error():
         except Exception as e:
             bugsnag.notify(e, context="handled Name Error - Booyah!")
             # show_error_dialog(). <--what is this?? from bs docs
+                        # return value to page ------------
     else:
         print "trying ..........."
         #deliberate, unhandled name error
@@ -124,6 +126,7 @@ def type_error():
         except Exception as e:
             bugsnag.notify(e, context="handled Type Error - HUZZAH!")
             # show_error_dialog(). <--what is this?? from bs docs
+                        # return value to page ------------
     else:
         print "trying ..........."
         #deliberate, unhandled name error
