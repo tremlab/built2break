@@ -1,6 +1,9 @@
 // built2break.js
 "use strict"
 
+//  global value - but should be overwritten for each error.
+Bugsnag.releaseStage = "whatever";
+
 document.addEventListener ("DOMContentLoaded", function() 
     {
         // python error event listeners
@@ -29,14 +32,14 @@ Bugsnag.beforeNotify = function(payload, metaData) {
     metaData.form_input = user_info;
     var rstage = user_info["rstage"];
 
-  // if (rstage === "staging") {
-  //   return false;
-  //   }
+    if (rstage === "staging") {
+        return false;
+        }
 
-    Bugsnag.releaseStage = rstage;
-    // Bugsnag.user = {
-    //     name: user_info["user"]
-    // };
+    payload.releaseStage = rstage;
+    payload.user = {
+        name: user_info["user"]
+    };
 }
 
 // Fires every time the page is loaded.
@@ -99,11 +102,6 @@ function fJsName(evt) {
             console.log(doesntExist);
         } 
         catch (e) {
-            //  SHOULD THIS BE SET HERE OR IN BEFORE.NOTIFY???
-            Bugsnag.releaseStage = user_info["rstage"];
-            Bugsnag.user = {
-                name: user_info["user"]
-            };
             Bugsnag.notifyException(e, "a handled Reference Error - HUZZAH!");            
         }
         // action...?
