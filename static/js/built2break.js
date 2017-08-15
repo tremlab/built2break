@@ -12,8 +12,8 @@ document.addEventListener ("DOMContentLoaded", function()
         $('#nameError').on('click', fName);
         $('#typeError').on('click', fType);
         // JS error event listeners
-        $('#jsIndexError').on('click', fJsIndex);
-        $('#jsNameError').on('click', fJsName);
+        $('#jsRangeError').on('click', fJsRange);
+        $('#jsRefError').on('click', fJsRef);
         $('#jsTypeError').on('click', fJsType);
 
 
@@ -56,10 +56,13 @@ function fBoop(evt) {
 // captures the data user has selected on the page,
 // to hand over to AJAX calls
 function fGetUserData() {
-    ///////////////////////////// if username empty.... ?
     var user = $('#username').val();
     var rstage = $('#rstage option:selected').val();
     var handling = $('#handling input:checked').val();
+    // if user field is blank:
+    if (user.trim() === "") {
+        user = "Voltron, Defender of the Universe"
+    }
 
     var user_info = {
         "user": user,
@@ -71,31 +74,34 @@ function fGetUserData() {
     return user_info;
 }
 
+
+// *************************************
+// FUNCTIONS TO TRIGGER JAVASCRIPT ERRORS
+// *************************************
+
 // handles the button for JavaScript Index error.
-function fJsIndex(evt) {
+function fJsRange(evt) {
     var user_info = fGetUserData();
-    var stuff = [1,2,3];
+    var num = 1;
 
     if (user_info["handling"] === "yes") {
         try {
-////////////////////////////////////////////////////
-            //  :D not acutally making an error! :D
-            console.log(stuff[17]);
+            num.toPrecision(500);
         } 
         catch (e) {
-            Bugsnag.notifyException(e, "IndexError");            
+            Bugsnag.notifyException(e, "a handled Range Error - ta da!!");            
         // action...?
         }
-
     }
 
     else {
-        console.log(stuff[17]);
+        // deliberate Range Error
+        num.toPrecision(500);
     }
 }
 
 // handles the button for JavaScript Name error.
-function fJsName(evt) {
+function fJsRef(evt) {
     var user_info = fGetUserData();
     if (user_info["handling"] === "yes") {
         try {
@@ -108,28 +114,29 @@ function fJsName(evt) {
     }
 
     else {
+        // deliberate Reference Error
         console.log(doesntExist);
     }
 }
 
+// handles the button for JavaScript Type error.
 function fJsType(evt) {
     var user_info = fGetUserData();
-    // if (user_info["handling"] === "yes") {
-    //     try {
-    //         // error line
-    //     } 
-    //     catch (e) {
-    //         Bugsnag.notifyException(e, "Boop");            
-    //     }
-    //     // action...?
-    // }
-
-    // else {
-    //     // error line
-    // }
+    if (user_info["handling"] === "yes") {
+    var num = 1;
+        try {
+            num.toUpperCase(); 
+        }
+        catch (e) {
+            Bugsnag.notifyException(e, "a handled Type Error - BOOYAH!");            
+        }
+            // action...?
+    }
+    else {
+        // deliberate Type Error
+        num.toUpperCase(); 
+    }
 }
-
-
 
 
 
@@ -137,6 +144,10 @@ function fJsType(evt) {
 function fShowError(payload) {
     console.log('called fShowError');
 }
+
+// *************************************
+// AJAX CALLS TO PYTHON ERRORS
+// *************************************
 
 
 // triggers a python Index Error
