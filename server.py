@@ -141,6 +141,7 @@ if __name__ == '__main__':
     app.debug = True
     #not caching on reload
     app.jinja_env.auto_reload = app.debug
+    # fires a single error notification:
     bugsnag.notify(Exception("Test Error"))
 
 
