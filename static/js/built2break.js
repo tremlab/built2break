@@ -48,7 +48,7 @@ Bugsnag.notify("ErrorName", "Monkey pants!!!!!!1!!!!");
 
 // a basic JS error trigger, one time use
 function fBoop(evt) {
-    Bugsnag.notify("Beeeeeeeep", "Boop");
+    Bugsnag.notify("Beeep", "Boop");
     $('#beep').text("Boop");
     $('#beep').prop('disabled', true);
 }
