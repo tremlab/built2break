@@ -151,7 +151,7 @@ function fShowError(payload) {
 function fIndex(evt) {
     var user_info = fGetUserData();
     console.log(user_info);
-    // sennding as get, not post - not form data, but a dictionary
+    // sending as get, not post - not form data, but a dictionary
     // fShowError not executing.  Success function doesn't return value.
     $.get('/index_error', user_info, fShowError);
 }
