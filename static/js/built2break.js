@@ -1,10 +1,21 @@
 // built2break.js
 "use strict"
 
-//  global value - but should be overwritten for each error.
-Bugsnag.releaseStage = "whatever";
 
-document.addEventListener ("DOMContentLoaded", function() 
+var bugsnagClient = bugsnag({
+  apiKey: "c2f4a83fbb63b9c09898191a3da3cabd",
+  maxEvents: 99,
+  releaseStage: "whatever",
+  beforeSend: function (report) {
+      var user_info = fGetUserData();
+      // report.updateMetaData('form_input': user_info);
+      report.app.releaseStage = user_info["rstage"];
+      report.user = {name: user_info["user"]};
+      // add version option too.
+  }
+});
+
+document.addEventListener ("DOMContentLoaded", function()
     {
         // python error event listeners
         $('#beep').on('click', fBoop);
@@ -15,39 +26,18 @@ document.addEventListener ("DOMContentLoaded", function()
         $('#jsRangeError').on('click', fJsRange);
         $('#jsRefError').on('click', fJsRef);
         $('#jsTypeError').on('click', fJsType);
-
-
     } // closes anon function
 ); // closes DOM event listener
+
 console.log("connected!!!!!!!");
 
 
-
-// severity    (optional) The seriousness of the error, 
-// selected from the options info, warning and error, listed in order of increasing severity
-
-// Configuration for unhandled errors.
-Bugsnag.beforeNotify = function(payload, metaData) {
-    var user_info = fGetUserData();
-    metaData.form_input = user_info;
-    var rstage = user_info["rstage"];
-
-    if (rstage === "staging") {
-        return false;
-        }
-
-    payload.releaseStage = rstage;
-    payload.user = {
-        name: user_info["user"]
-    };
-}
-
 // Fires every time the page is loaded.
-Bugsnag.notify("ErrorName", "Monkey pants!!!!!!1!!!!");
+bugsnagClient.notify(new Error("ErrorName"));
 
 // a basic JS error trigger, one time use
 function fBoop(evt) {
-    Bugsnag.notify("Beep", "Boop");
+    bugsnagClient.notify({ name: 'Beep', message: 'boop'})
     $('#beep').text("Boop");
     $('#beep').prop('disabled', true);
 }
@@ -79,7 +69,8 @@ function fGetUserData() {
 // FUNCTIONS TO TRIGGER JAVASCRIPT ERRORS
 // *************************************
 
-// handles the button for JavaScript Index error.
+// handles the button for JavaScript ??? error.
+// FIX ******************  find a new error to throw :D
 function fJsRange(evt) {
     var user_info = fGetUserData();
     var num = 1;
@@ -87,9 +78,11 @@ function fJsRange(evt) {
     if (user_info["handling"] === "yes") {
         try {
             num.toPrecision(500);
-        } 
+        }
         catch (e) {
-            Bugsnag.notifyException(e, "a handled Range Error - ta da!!");            
+            bugsnagClient.notify(e, {
+              context: "a handled Range Error - ta da!!"
+            });
         // action...?
         }
     }
@@ -106,9 +99,11 @@ function fJsRef(evt) {
     if (user_info["handling"] === "yes") {
         try {
             console.log(doesntExist);
-        } 
+        }
         catch (e) {
-            Bugsnag.notifyException(e, "a handled Reference Error - HUZZAH!");            
+            bugsnagClient.notify(e, {
+              context: "a handled Reference Error - HUZZAH!"
+            });
         }
         // action...?
     }
@@ -125,28 +120,30 @@ function fJsType(evt) {
     if (user_info["handling"] === "yes") {
     var num = 1;
         try {
-            num.toUpperCase(); 
+            num.toUpperCase();
         }
         catch (e) {
-            Bugsnag.notifyException(e, "a handled Type Error - BOOYAH!");            
+            bugsnagClient.notify(e, {
+              context: "a handled Type Error - BOOYAH!"
+            });
         }
             // action...?
     }
     else {
         // deliberate Type Error
-        num.toUpperCase(); 
+        num.toUpperCase();
     }
 }
 
 
 
-// placeholder -- not sure what to display yet
+// placeholder -- when bugsnag returns event id from api request
 function fShowError(payload) {
     console.log('called fShowError');
 }
 
 // *************************************
-// AJAX CALLS TO PYTHON ERRORS
+// AJAX CALLS TO PYTHON ERRORS - DATA ACCESS API
 // *************************************
 
 
@@ -170,7 +167,3 @@ function fType(evt) {
     var user_info = fGetUserData();
     $.get('/type_error', user_info, fShowError);
 }
-
-
-
-

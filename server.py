@@ -77,19 +77,19 @@ def index_error():
     """Will generate an out of index error."""
     user_info = request.args
     set_user_info(user_info)
-    stuff = [1,2,3]    
+    stuff = [1,2,3]
 
     if session["handling"] == "yes":
         try:
-            print stuff[17]
+            print(stuff[17])
         except Exception as e:
             bugsnag.notify(e, context="handled Index Error - ta da!")
             # show_error_dialog(). <--what is this?? from bs docs
                         # return value to page ------------
     else:
-        print "trying ..........."
+        print("trying ...........")
         #deliberate, unhandled out of range error
-        print stuff[17]
+        print(stuff[17])
 
 
 @app.route('/name_error')
@@ -102,15 +102,15 @@ def name_error():
     if session["handling"] == "yes":
         # having issues with session - but not for unhandled??? how?
         try:
-            print doesnt_exist
+            print(doesnt_exist)
         except Exception as e:
             bugsnag.notify(e, context="handled Name Error - Booyah!")
             # show_error_dialog(). <--what is this?? from bs docs
                         # return value to page ------------
     else:
-        print "trying ..........."
+        print("trying ...........")
         #deliberate, unhandled name error
-        print doesnt_exist
+        print(doesnt_exist)
 
 @app.route('/type_error')
 def type_error():
@@ -122,15 +122,15 @@ def type_error():
     if session["handling"] == "yes":
         # having issues with session - but not for unhandled??? how?
         try:
-            print "monkey" + 3
+            print("monkey" + 3)
         except Exception as e:
             bugsnag.notify(e, context="handled Type Error - HUZZAH!")
             # show_error_dialog(). <--what is this?? from bs docs
                         # return value to page ------------
     else:
-        print "trying ..........."
+        print("trying ...........")
         #deliberate, unhandled name error
-        print "monkey" + 3
+        print("monkey" + 3)
 
 
 ##################################################
@@ -153,5 +153,3 @@ if __name__ == '__main__':
     DEBUG = "NO_DEBUG" not in os.environ
 
     app.run(host="0.0.0.0", port=PORT, debug=DEBUG)
-
-
