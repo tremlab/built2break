@@ -23,6 +23,7 @@ app.jinja_env.endefined = StrictUndefined
 bugsnag.configure(
     api_key=os.environ.get("BUGSNAG_KEY"),
     project_root="/",
+
 )
 
 
@@ -36,9 +37,9 @@ def callback(notification):
             return False
         else:
             bugsnag.configure(release_stage = rstage)
+            bugsnag.configure(app_version = session["vsion"])
         # You can set properties of the notification
             notification.user = {"name": session["user"]}
-            notification.app.version = session["vsion"]
     else:
         pass
     # add some fun suff here - fav color, astrological sign :P
