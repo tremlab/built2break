@@ -38,7 +38,7 @@ def callback(notification):
             bugsnag.configure(release_stage = rstage)
         # You can set properties of the notification
             notification.user = {"name": session["user"]}
-            notification.app.version = session["version"]
+            notification.app.version = session["vsion"]
     else:
         pass
     # add some fun suff here - fav color, astrological sign :P
@@ -60,7 +60,7 @@ def set_user_info(args):
     session["user"] = user_name
     session["rstage"] = args.get("rstage", "monkeys")
     session["handling"] = args.get("handling", "no")
-    session["version"] = args.get("version", "2.0")
+    session["vsion"] = args.get("version", "2.0")
 
     return None
 
