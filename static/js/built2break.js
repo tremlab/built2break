@@ -8,10 +8,10 @@ var bugsnagClient = bugsnag({
   releaseStage: "whatever",
   beforeSend: function (report) {
       var user_info = fGetUserData();
-      // report.updateMetaData('form_input': user_info);
+      report.metaData = {'form_input': user_info};
       report.app.releaseStage = user_info["rstage"];
+      report.app.version = user_info["version"];
       report.user = {name: user_info["user"]};
-      // add version option too.
   }
 });
 
@@ -48,6 +48,7 @@ function fBoop(evt) {
 function fGetUserData() {
     var user = $('#username').val();
     var rstage = $('#rstage option:selected').val();
+    var version = $('#version').val();
     var handling = $('#handling input:checked').val();
     // if user field is blank:
     if (user.trim() === "") {
@@ -57,7 +58,8 @@ function fGetUserData() {
     var user_info = {
         "user": user,
         "rstage": rstage,
-        "handling": handling
+        "handling": handling,
+        "version": version
     };
 
     console.log(user_info);

@@ -38,6 +38,7 @@ def callback(notification):
             bugsnag.configure(release_stage = rstage)
         # You can set properties of the notification
             notification.user = {"name": session["user"]}
+            notification.app.version = session["version"]
     else:
         pass
     # add some fun suff here - fav color, astrological sign :P
@@ -59,6 +60,7 @@ def set_user_info(args):
     session["user"] = user_name
     session["rstage"] = args.get("rstage", "monkeys")
     session["handling"] = args.get("handling", "no")
+    session["version"] = args.get("version", "2.0")
 
     return None
 
@@ -147,9 +149,6 @@ if __name__ == '__main__':
 
     #use debug toolbar
     DebugToolbarExtension(app)
-
     PORT = int(os.environ.get("PORT", 5000))
-
     DEBUG = "NO_DEBUG" not in os.environ
-
     app.run(host="0.0.0.0", port=PORT, debug=DEBUG)
