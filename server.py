@@ -4,7 +4,6 @@
 from jinja2 import StrictUndefined
 from flask import (Flask, jsonify, render_template,
                    redirect, request, flash, session, Markup, copy_current_request_context, has_request_context)
-from flask_debugtoolbar import DebugToolbarExtension
 import bugsnag
 from bugsnag.flask import handle_exceptions
 
