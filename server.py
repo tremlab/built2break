@@ -146,8 +146,5 @@ if __name__ == '__main__':
     # fires a single error notification:
     bugsnag.notify(Exception("Test Error"))
 
-
-    #use debug toolbar
-    DebugToolbarExtension(app)
     PORT = int(os.environ.get("PORT", 5000))
     app.run(host="0.0.0.0", port=PORT)
