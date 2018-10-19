@@ -9,6 +9,8 @@ var bugsnagClient = bugsnag({
   beforeSend: function (report) {
       var user_info = fGetUserData();
       report.metaData = {'form_input': user_info};
+      report.metaData = {'custom': { 'level': user_info["account"]}};
+      report.metaData = {'custom': { 'errType': user_info["message"]}};
       report.app.releaseStage = user_info["rstage"];
       report.app.version = user_info["version"];
       report.user = {name: user_info["user"]};
@@ -50,6 +52,9 @@ function fGetUserData() {
     var rstage = $('#rstage option:selected').val();
     var version = $('#version').val();
     var handling = $('#handling input:checked').val();
+    var acct = $('#acct option:selected').val();
+    var message = $('#impactmsg option:selected').val();
+
     // if user field is blank:
     if (user.trim() === "") {
         user = "Voltron, Defender of the Universe"
@@ -60,6 +65,8 @@ function fGetUserData() {
         "rstage": rstage,
         "handling": handling,
         "version": version
+        "account": acct
+        "errType": message
     };
 
     console.log(user_info);

@@ -39,10 +39,10 @@ def callback(notification):
             bugsnag.configure(app_version = session["vsion"])
         # You can set properties of the notification
             notification.user = {"name": session["user"]}
+            notification.add_tab("custom", {"account": session["acct"]})
+            notification.add_tab("custom", {"level": session["impactmsg"]})
     else:
         pass
-    # add some fun suff here - fav color, astrological sign :P
-    # notification.add_tab("account", {"paying": current_user.acccount.is_paying()})
 
 # Call `callback` before every notification
 bugsnag.before_notify(callback)
@@ -61,6 +61,8 @@ def set_user_info(args):
     session["rstage"] = args.get("rstage", "monkeys")
     session["handling"] = args.get("handling", "no")
     session["vsion"] = args.get("version", "2.0")
+    session["acct"] = args.get("acct", "free")
+    session["impactmsg"] = args.get("impactmsg", "monkeys")
 
     return None
 
